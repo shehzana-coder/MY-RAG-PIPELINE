@@ -1,0 +1,345 @@
+{
+    "Faculty": {
+        "https://namal.edu.pk/faculty": [
+            "https://namal.edu.pk/faculty"
+        ]
+    },
+    "Gallery": {
+        "https://namal.edu.pk/gallery": [
+            "https://namal.edu.pk/gallery"
+        ]
+    },
+    "Virtual Tour": {},
+    "QOBE": {},
+    "Library": {},
+    "PHEC": {},
+    "Careers": {
+        "https://namal.edu.pk/careers": [
+            "https://namal.edu.pk/",
+            "https://namal.edu.pk/careers"
+        ]
+    },
+    "Alumni Portal": {},
+    "Contact Us": {
+        "https://namal.edu.pk/contact-us": [
+            "https://namal.edu.pk/contact-us"
+        ]
+    },
+    "Chairman's Message": {
+        "https://namal.edu.pk/chairmans-message": [
+            "https://namal.edu.pk/chairmans-message"
+        ]
+    },
+    "Rector's Message": {
+        "https://namal.edu.pk/rectors-message": [
+            "https://namal.edu.pk/rectors-message"
+        ]
+    },
+    "Vision And Mission": {
+        "https://namal.edu.pk/vision-and-mission": [
+            "https://namal.edu.pk/vision-and-mission"
+        ]
+    },
+    "Core Values": {
+        "https://namal.edu.pk/core-values": [
+            "https://namal.edu.pk/core-values"
+        ]
+    },
+    "The Namal Story": {
+        "https://namal.edu.pk/the-namal-story": [
+            "https://namal.edu.pk/the-namal-story"
+        ]
+    },
+    "Namal Knowledge City": {
+        "https://namal.edu.pk/namal-knowledge-city": [
+            "https://namal.edu.pk/namal-knowledge-city"
+        ]
+    },
+    "Board Of Governors": {
+        "https://namal.edu.pk/board-of-governors": [
+            "https://namal.edu.pk/board-of-governors"
+        ]
+    },
+    "Senior Management Team": {
+        "https://namal.edu.pk/senior-management-team": [
+            "https://namal.edu.pk/faculty/profile/174/mr-asif-a-malik",
+            "https://namal.edu.pk/faculty/profile/175/mr-muhammad-imran",
+            "https://namal.edu.pk/faculty/profile/176/dr-khawar-khurshid",
+            "https://namal.edu.pk/faculty/profile/51/dr-m-najam-ul-islam",
+            "https://namal.edu.pk/senior-management-team"
+        ]
+    },
+    "HEC Recognition": {
+        "https://namal.edu.pk/hec-recognition": [
+            "https://namal.edu.pk/hec-recognition"
+        ]
+    },
+    "Policies": {
+        "https://namal.edu.pk/policies": [
+            "https://namal.edu.pk/policies"
+        ]
+    },
+    "Departments": {
+        "https://namal.edu.pk/academic-calendar": [
+            "https://namal.edu.pk/academic-calendar"
+        ],
+        "https://namal.edu.pk/oric": [
+            "https://namal.edu.pk/oric"
+        ]
+    },
+    "Department Of Electrical Engineering": {
+        "https://namal.edu.pk/department-of-electrical-engineering": [
+            "https://namal.edu.pk/department-of-electrical-engineering",
+            "https://namal.edu.pk/event/alumni-talk-series-power-system-protection-by-mr-zaafran-ullah-5646",
+            "https://namal.edu.pk/event/business-idea-competition-2025-1930",
+            "https://namal.edu.pk/event/internal-audit-of-electrical-engineering-department-by-external-evaluator-1055",
+            "https://namal.edu.pk/event/namal-tech-expo-2025-7281",
+            "https://namal.edu.pk/event/namal-tech-expo-2025-8865",
+            "https://namal.edu.pk/event/namal-university-hosts-industrial-advisory-board-meeting-to-strengthen-academia-industry-linkages-27",
+            "https://namal.edu.pk/event/namal-universitys-caid-wins-2nd-place-at-pintech-2025-8802",
+            "https://namal.edu.pk/event/qec-conducts-internal-audit-of-ee-department-9291",
+            "https://namal.edu.pk/event/robotics-bootcamp-0477",
+            "https://namal.edu.pk/faculty/profile/104/dr.-tassadaq-hussain",
+            "https://namal.edu.pk/faculty/profile/118/dr.-naureen-shaukat",
+            "https://namal.edu.pk/faculty/profile/120/mr.-muhammad-imtiaz-ul-hassan",
+            "https://namal.edu.pk/faculty/profile/123/mr.-zafar-ullah",
+            "https://namal.edu.pk/faculty/profile/149/dr.-ahmed-salim",
+            "https://namal.edu.pk/faculty/profile/160/dr.-m.-farrukh-qureshi",
+            "https://namal.edu.pk/faculty/profile/165/mr.-majid-ali",
+            "https://namal.edu.pk/faculty/profile/168/mr.-junaid-ashraf",
+            "https://namal.edu.pk/faculty/profile/173/ms.-farkhanda-aziz",
+            "https://namal.edu.pk/faculty/profile/179/ms.-sana-perveen",
+            "https://namal.edu.pk/faculty/profile/180/ms.-sameen-gul",
+            "https://namal.edu.pk/faculty/profile/181/ms.-aliza",
+            "https://namal.edu.pk/faculty/profile/182/ms.-tanzeela-noureen",
+            "https://namal.edu.pk/faculty/profile/50/ms.-zulaikha-kiran",
+            "https://namal.edu.pk/faculty/profile/60/dr.-wahab-ali-shah",
+            "https://namal.edu.pk/faculty/profile/61/dr.-sajjad-ur-rehman",
+            "https://namal.edu.pk/faculty/profile/62/dr.-sami-ud-din"
+        ]
+    },
+    "Department Of Computer Science": {
+        "https://namal.edu.pk/department-of-computer-science": [
+            "https://namal.edu.pk/department-of-computer-science",
+            "https://namal.edu.pk/faculty/profile/100/mr.-abdul-rafay",
+            "https://namal.edu.pk/faculty/profile/107/dr.-malik-m-ali-shahid",
+            "https://namal.edu.pk/faculty/profile/124/ms.-asiya-batool",
+            "https://namal.edu.pk/faculty/profile/128/mr.-m.-ramzan-shahid",
+            "https://namal.edu.pk/faculty/profile/129/mr.-ammar-ahmad",
+            "https://namal.edu.pk/faculty/profile/130/ms.-sonia-safeer",
+            "https://namal.edu.pk/faculty/profile/150/dr.-khawar-khurshid",
+            "https://namal.edu.pk/faculty/profile/151/mr.-muhammad-bilal",
+            "https://namal.edu.pk/faculty/profile/155/dr.-muzamil-ahmed",
+            "https://namal.edu.pk/faculty/profile/159/dr.-mudassar-raza",
+            "https://namal.edu.pk/faculty/profile/163/dr.-shafiq-ur-rehman-khan",
+            "https://namal.edu.pk/faculty/profile/94/mr.-adnan-bashir",
+            "https://namal.edu.pk/faculty/profile/95/mr.-shahzad-arif"
+        ]
+    },
+    "Department Of Business Studies": {
+        "https://namal.edu.pk/department-of-business-studies": [
+            "https://namal.edu.pk/department-of-business-studies",
+            "https://namal.edu.pk/faculty/profile/105/dr.-muhammad-ahmed",
+            "https://namal.edu.pk/faculty/profile/127/dr.-azhar-rasool",
+            "https://namal.edu.pk/faculty/profile/133/dr.-shoaib-irshad",
+            "https://namal.edu.pk/faculty/profile/135/dr.-hamza-wazir-khan",
+            "https://namal.edu.pk/faculty/profile/152/dr.-umar-farooq",
+            "https://namal.edu.pk/faculty/profile/153/dr.-haris-bin-khalid",
+            "https://namal.edu.pk/faculty/profile/161/dr.-hashim-zameer",
+            "https://namal.edu.pk/faculty/profile/172/dr.-faisal-rasheed",
+            "https://namal.edu.pk/faculty/profile/86/dr.-muhammad-ashraf",
+            "https://namal.edu.pk/faculty/profile/99/ms.--zunera-batool"
+        ]
+    },
+    "Department Of Mathematics": {
+        "https://namal.edu.pk/department-of-mathematics": [
+            "https://namal.edu.pk/department-of-mathematics"
+        ]
+    },
+    "Office Of The Registrar": {
+        "https://namal.edu.pk/office-of-the-registrar": [
+            "https://namal.edu.pk/office-of-the-registrar"
+        ]
+    },
+    "Office Of The CoE": {
+        "https://namal.edu.pk/office-of-the-coe": [
+            "https://namal.edu.pk/office-of-the-coe"
+        ]
+    },
+    "Office Of The Treasurer": {
+        "https://namal.edu.pk/office-of-the-treasurer": [
+            "https://namal.edu.pk/office-of-the-treasurer"
+        ]
+    },
+    "Student Handbook": {
+        "https://namal.edu.pk/student-handbook": [
+            "https://namal.edu.pk/student-handbook"
+        ]
+    },
+    "Quality Enhancement Cell": {
+        "https://namal.edu.pk/quality-enhancement-cell": [
+            "https://namal.edu.pk/quality-enhancement-cell"
+        ]
+    },
+    "Placement Center": {
+        "https://namal.edu.pk/placement-center": [
+            "https://namal.edu.pk/placement-center"
+        ]
+    },
+    "Apply": {
+        "https://namal.edu.pk/apply": [
+            "https://namal.edu.pk/apply"
+        ]
+    },
+    "Admission Criteria": {
+        "https://namal.edu.pk/admission-criteria": [
+            "https://namal.edu.pk/admission-criteria"
+        ]
+    },
+    "Entry Test Information": {
+        "https://namal.edu.pk/entry-test-information": [
+            "https://namal.edu.pk/entry-test-information"
+        ]
+    },
+    "Upcoming Acceptable Entry Tests": {
+        "https://namal.edu.pk/upcoming-acceptable-entry-tests": [
+            "https://namal.edu.pk/upcoming-acceptable-entry-tests"
+        ]
+    },
+    "Scholarships": {
+        "https://namal.edu.pk/scholarships": [
+            "https://namal.edu.pk/scholarships"
+        ]
+    },
+    "Fee Structure": {
+        "https://namal.edu.pk/fee-structure": [
+            "https://namal.edu.pk/fee-structure"
+        ]
+    },
+    "FAQs": {
+        "https://namal.edu.pk/faqs": [
+            "https://namal.edu.pk/faqs"
+        ]
+    },
+    "Workshops And Seminars": {
+        "https://namal.edu.pk/workshops-and-seminars": [
+            "https://namal.edu.pk/workshops-and-seminars",
+            "https://namal.edu.pk/workshops-and-seminars/3-day-cybersecurity-and-ctf-workshop-8001",
+            "https://namal.edu.pk/workshops-and-seminars/anger-management-webinar-3259",
+            "https://namal.edu.pk/workshops-and-seminars/brain-buffet-from-goals-to-success-0904",
+            "https://namal.edu.pk/workshops-and-seminars/empowering-farmers-with-innovation-4116",
+            "https://namal.edu.pk/workshops-and-seminars/empowering-future-leaders-y-ibp-program-workshop-at-namal-university-2826",
+            "https://namal.edu.pk/workshops-and-seminars/faculty-social-bonding-workshop-kalabagh-2025-9806",
+            "https://namal.edu.pk/workshops-and-seminars/namal-university-hosts-workshop-on-agentic-ai-and-intelligent-systems-0288",
+            "https://namal.edu.pk/workshops-and-seminars/odoo-conducts-training-session-at-namal-2984",
+            "https://namal.edu.pk/workshops-and-seminars/teaching-with-an-entrepreneurial-mindset-7184",
+            "https://namal.edu.pk/workshops-and-seminars/webinar-on-gender-based-violence-4786",
+            "https://namal.edu.pk/workshops-and-seminars/workshop-on-professional-development-and-soft-skills-4645",
+            "https://namal.edu.pk/workshops-and-seminars/workshop-on-professional-ethics-at-namal-university-4234"
+        ]
+    },
+    "Green Namal": {
+        "https://namal.edu.pk/green-namal": [
+            "https://namal.edu.pk/green-namal"
+        ]
+    },
+    "Facilities": {
+        "https://namal.edu.pk/facilities": [
+            "https://namal.edu.pk/facilities"
+        ]
+    },
+    "Student Societies": {
+        "https://namal.edu.pk/student-societies": [
+            "https://namal.edu.pk/student-societies",
+            "https://namal.edu.pk/student-societies/namal-environmental-club-nec-5151",
+            "https://namal.edu.pk/student-societies/namal-idea-club-nic-1417",
+            "https://namal.edu.pk/student-societies/namal-klub-of-arts-media-nkam-1449",
+            "https://namal.edu.pk/student-societies/namal-literary-debating-society-lds-2673",
+            "https://namal.edu.pk/student-societies/namal-media-club-5927",
+            "https://namal.edu.pk/student-societies/namal-society-for-social-impact-nssi-6606",
+            "https://namal.edu.pk/student-societies/namal-sports-and-adventure-club-nsac-3650",
+            "https://namal.edu.pk/student-societies/skills-development-society-9872"
+        ]
+    },
+    "Open House": {
+        "https://namal.edu.pk/open-house": [
+            "https://namal.edu.pk/open-house"
+        ]
+    },
+    "AI For Software Engineering": {
+        "https://namal.edu.pk/ai-for-software-engineering": [
+            "https://namal.edu.pk/ai-for-software-engineering"
+        ]
+    },
+    "Namal Wellness Centre": {
+        "https://namal.edu.pk/namal-wellness-centre": [
+            "https://namal.edu.pk/namal-wellness-centre"
+        ]
+    },
+    "News": {
+        "https://namal.edu.pk/news": [
+            "https://namal.edu.pk/news",
+            "https://namal.edu.pk/news/alumni-talk-series-power-system-protection-by-mr-zaafran-ullah-5646",
+            "https://namal.edu.pk/news/from-vision-to-reality-0173",
+            "https://namal.edu.pk/news/ieee-namal-student-branch-participates-in-ieee-day-2025-2569",
+            "https://namal.edu.pk/news/mr-abdul-razak-dawood-visits-namal-university-mianwali-6970",
+            "https://namal.edu.pk/news/namal-giki-and-paf-iast-sign-mou-to-boost-ai-and-technology-in-pakistan-5968",
+            "https://namal.edu.pk/news/namal-shines-at-space-camp-2025-0369",
+            "https://namal.edu.pk/news/namal-university-hosts-industrial-advisory-board-meeting-to-strengthen-academia-industry-linkages-27",
+            "https://namal.edu.pk/news/renewing-partnerships-for-a-smarter-agricultural-future-1420"
+        ]
+    },
+    "R&D Centers": {
+        "https://namal.edu.pk": [
+            "https://namal.edu.pk"
+        ]
+    },
+    "Centre For AI & Big Data": {
+        "https://namal.edu.pk/centre-for-ai-big-data": [
+            "https://namal.edu.pk/centre-for-ai-big-data"
+        ]
+    },
+    "Nisar Aziz AgriTech Center": {
+        "https://namal.edu.pk/nisar-aziz-agritech-center": [
+            "https://namal.edu.pk/faculty/profile/166/mr-saleem-ullah",
+            "https://namal.edu.pk/nisar-aziz-agritech-center"
+        ]
+    },
+    "Not Categorized": {
+        "https://namal.edu.pk/event": [
+            "https://namal.edu.pk/event",
+            "https://namal.edu.pk/event/agrifusion-2025-highlights-multidisciplinary-innovations-for-a-sustainable-agricultural-future-0862",
+            "https://namal.edu.pk/event/cultural-fest-2025-6989",
+            "https://namal.edu.pk/event/farewell-party-of-the-class-2025-6871",
+            "https://namal.edu.pk/event/girl-boss-of-the-year-2025-celebrating-namals-empowered-women-entrepreneurs-5713",
+            "https://namal.edu.pk/event/mathematics-carnival-2025-5055",
+            "https://namal.edu.pk/event/namal-alumni-association-executive-committee-takes-oath-0238",
+            "https://namal.edu.pk/event/namal-open-house-career-fair-2025-4807",
+            "https://namal.edu.pk/event/namal-sports-gala-2025-1470"
+        ],
+        "https://namal.edu.pk/event/first-interaction-for-class-of-2029-6692": [
+            "https://namal.edu.pk/event/first-interaction-for-class-of-2029-6692"
+        ],
+        "https://namal.edu.pk/event/namal-summer-school-2025-1119": [
+            "https://namal.edu.pk/event/namal-summer-school-2025-1119"
+        ],
+        "https://namal.edu.pk/event/namal-university-hosts-summer-school-on-supercomputing-ai-8055": [
+            "https://namal.edu.pk/event/namal-university-hosts-summer-school-on-supercomputing-ai-8055"
+        ],
+        "https://namal.edu.pk/event/namals-national-event-on-indigenous-digital-innovation-1131": [
+            "https://namal.edu.pk/event/namals-national-event-on-indigenous-digital-innovation-1131"
+        ],
+        "https://namal.edu.pk/news/alumni-talk-series-ghazanfar-idrees-empowers-namal-students-to-thrive-in-the-ai-era-9581": [
+            "https://namal.edu.pk/news/alumni-talk-series-ghazanfar-idrees-empowers-namal-students-to-thrive-in-the-ai-era-9581"
+        ],
+        "https://namal.edu.pk/news/empowering-the-namal-community-with-life-saving-skills-4090": [
+            "https://namal.edu.pk/news/empowering-the-namal-community-with-life-saving-skills-4090"
+        ],
+        "https://namal.edu.pk/news/nbc-2026-national-conference-at-namal-university-6676": [
+            "https://namal.edu.pk/news/nbc-2026-national-conference-at-namal-university-6676"
+        ],
+        "https://namal.edu.pk/news/stand-with-your-batch-rep-by-elections-on-november-24th-5689": [
+            "https://namal.edu.pk/news/stand-with-your-batch-rep-by-elections-on-november-24th-5689"
+        ]
+    }
+}

@@ -1,0 +1,11 @@
+langchain
+weaviate-client
+openai
+python-dotenv
+sentence-transformers
+transformers
+beautifulsoup4
+tqdm
+requests
+seleniumbase
+crawl4ai

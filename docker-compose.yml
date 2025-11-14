@@ -1,0 +1,35 @@
+services:
+  weaviate:
+  image: semitechnologies/weaviate:1.29.0
+  ports:
+    - "8080:8080"      # REST
+    - "50051:50051"    # gRPC  (required!)
+  environment:
+    - ENABLE_MODULES=
+    - ENABLE_MODULES=text2vec-openai
+    - ENABLE_GRPC=true
+
+    - GRPC_PORT=50051
+    - QUERY_DEFAULTS_LIMIT=20
+    - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+    - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+  volumes:
+    - ./weaviate_data:/var/lib/weaviate
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: rag-app
+    working_dir: /app
+    volumes:
+      - .:/app:delegated
+    environment:
+      - WEAVIATE_URL=http://weaviate:8080
+      - EMBEDDING_PROVIDER=openai
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - weaviate
+    stdin_open: true
+    tty: true
+    command: tail -f /dev/null

@@ -1,0 +1,16 @@
+Home faculty Mr. Muhammad Imtiaz Ul Hassan MR. MUHAMMAD IMTIAZ UL HASSAN Lab Engineer Department of Electrical Engineering 162 muhammad.imtiaz@namal.edu.pk Profile Publications Courses Projects Summary Muhammad Imtiaz Ul Hassan, an electrical engineer from Mianwali, holds a B.Sc. from UET Lahore (Faisalabad Campus) and an MS in Renewable Energy System Engineering from UET Lahore Main Campus, with a focus on DC transmission for PV systems. He interned at the 220 kV NTDC Grid Station and worked at Safina Sugar Mill as a Graduate Trainee Engineer. Since March 2023, he has been serving as a Lab Engineer at Namal University, Mianwali. Academic Background MS in Renewable Energy System Engineering ( To Improve the Efficiency of Long Distance DC Power Transmission System for
+Photovoltaic Power Generation ) UET Lahore 2022 BSc Electrical Engineering (  Impact of High Voltage Transmission Line On Photovoltaic Power Production) UET Lahore FSD Campus 2020 Experience Lab Engineer Namal University Mianwali 06-Mar-2023 -    continue Honours and Awards PEEF Schlorship Merit Base Scholarship on the basis of intermediate marks. 27-Feb-2017 Conference Publications A Simulation-based driven method to Optimize the efficiency of long Transmission lines using Photo Voltaic Power Generation Technique, 28-May-2024 2024 Second International Conference on Smart Technologies for Power and Renewable Energy (SPECon), 2024. Courses Introduction to Power Engineering Electronic Devices and Circuits Applied Physics Electrical Network Analysis and Design Power Electronics Communication System Impact of High Voltage Transmission Line on Photovoltaic Power Production In this study, a comprehensive theoretical analysis was presented to show the impact of ac 
+electric and magnetic field produced by a high voltage transmission line on power production of a PV 
+module. The results of related experimentation and artificial intelligence were given, and it was 
+demonstrated the ac electric field produced by high voltage transmission lines has no effect on PV 
+power production, while ac magnetic field has negative effect on output power of PV module located 
+near high voltage transmission lines To Improve the Efficiency of Long Distance DC Power Transmission System for
+Photovoltaic Power Generation  Renewable resources specifically photovoltaic power transmission to a long distance 
+is studied in this research study.
+ Long Distance Transmission System consists of PV array input as 450V-650V.
+ Ultra-Lift Luo Converter (ULL) is placed where the voltage will be stepped-up and this 
+ULL converter has switching loss so Zero Voltage Switching (ZVS) Technique is 
+applied to enhance overall efficiency.
+ Sensitivity analysis is performed by increase/decrease in PV capacity which shows 
+that no change in overall gain of designed ULL converter that make the system more 
+reliable × search
