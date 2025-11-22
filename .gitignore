@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv/
+env/
+venv/
+weaviate_data/
+weaviate_data_old/
+data/
+downloaded_files/
+.vscode/

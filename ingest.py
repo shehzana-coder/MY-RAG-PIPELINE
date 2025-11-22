@@ -12,7 +12,7 @@ from langchain_openai import OpenAIEmbeddings
 
 load_dotenv()
 
-WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://localhost:8080")
+WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://localhost:8081")
 EMBED_PROVIDER = os.environ.get("EMBEDDING_PROVIDER", "openai")
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
@@ -117,7 +117,7 @@ def ingest():
         
         category_slug = get_category_from_filename(path)
         class_name = slug_to_classname(category_slug)
-        print(f"    [MAP] Category: {category_slug} → Class: {class_name}")
+        print(f"    [MAP] Category: {category_slug} -> Class: {class_name}")
         
         chunks = splitter.split_text(text)
         print(f"    [SPLIT] Created {len(chunks)} text chunks")
@@ -129,9 +129,9 @@ def ingest():
         for i in tqdm(range(0, len(chunks), batch_size), desc=f"    [EMBED]", leave=False):
             batch_chunks = chunks[i:i+batch_size]
             try:
-                print(f"      → Embedding batch {i//batch_size + 1} ({len(batch_chunks)} chunks)...")
+                print(f"      -> Embedding batch {i//batch_size + 1} ({len(batch_chunks)} chunks)...")
                 vectors = embedder.embed_documents(batch_chunks)
-                print(f"        ✓ Got {len(vectors)} embedding vectors")
+                print(f"        OK Got {len(vectors)} embedding vectors")
                 
                 for chunk_idx, (chunk_text, vector) in enumerate(zip(batch_chunks, vectors)):
                     props = {
@@ -170,13 +170,13 @@ def ingest():
     if file_stats:
         print(f"\n  Per-file breakdown:")
         for stat in file_stats[:10]:  # Show first 10 files
-            status = f"✓ {stat['ingested']}" if stat['ingested'] > 0 else f"✗ Failed"
-            print(f"    {stat['file']:50} → {status}")
+            status = f"OK {stat['ingested']}" if stat['ingested'] > 0 else f"X Failed"
+            print(f"    {stat['file']:50} -> {status}")
         if len(file_stats) > 10:
             print(f"    ... and {len(file_stats) - 10} more files")
     
     print(f"\n{'='*70}")
-    print(f"  ✓ Ingestion complete!\n")
+    print(f"  OK Ingestion complete!\n")
 
 
 if __name__ == "__main__":

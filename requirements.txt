@@ -9,3 +9,5 @@ tqdm
 requests
 seleniumbase
 crawl4ai
+langchain-text-splitters
+langchain-openai

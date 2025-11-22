@@ -6,12 +6,11 @@ import json
 from typing import Dict, List, Optional
 
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-load_dotenv()  
-WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://localhost:8080")
+
+load_dotenv()
 EMBED_PROVIDER = os.environ.get("EMBEDDING_PROVIDER", "openai")
 ORG_NAME = os.environ.get("ORG_NAME", "Your Organization")
-
-
+WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://localhost:8081")
 def is_greeting(text: str) -> bool:
     text = text.strip().lower()
     # simple greeting detection
@@ -54,7 +53,7 @@ def analyze_query_intent(user_query: str) -> Dict:
         "Be concise and only output valid JSON."
     )
     try:
-        raw = llm(prompt)
+        raw = llm.invoke(prompt).content
         # try to parse JSON from model output
         parsed = None
         try:
@@ -128,7 +127,7 @@ def is_outside_org_query(user_query: str) -> Dict:
         "If the query is about internal policies, staff, departments, projects, datasets, research, or other organization-specific content, set outside to false. Otherwise set outside to true."
     )
     try:
-        raw = llm(prompt)
+        raw = llm.invoke(prompt).content
         parsed = None
         try:
             parsed = json.loads(raw)
@@ -254,7 +253,7 @@ def perform_query(user_query: str, k: int = 5, filters: Optional[Dict[str, List[
     if is_greeting(cleaned):
         llm = ChatOpenAI(temperature=0)
         prompt = f"You are a helpful assistant for {ORG_NAME}. Respond to this greeting briefly and politely: '{cleaned}'"
-        return llm.call_as_llm(prompt) if hasattr(llm, 'call_as_llm') else llm(prompt)
+        return llm.invoke(prompt).content
 
     # Detect whether the question is about organization/internal data or outside scope
     outside_check = is_outside_org_query(cleaned)
@@ -265,9 +264,9 @@ def perform_query(user_query: str, k: int = 5, filters: Optional[Dict[str, List[
             f"The user asked: '{cleaned}'. This question is NOT about the organization's internal data. Provide a very brief, factual, and cautious general answer (max 3 sentences)."
         )
         try:
-            general_answer = llm.call_as_llm(gen_prompt) if hasattr(llm, 'call_as_llm') else llm(gen_prompt)
+            general_answer = llm.invoke(gen_prompt).content
         except Exception:
-            general_answer = llm(gen_prompt)
+            general_answer = llm.invoke(gen_prompt).content
 
         # Suggest organization-related follow-up questions the user may want instead
         suggestions = suggest_org_followups(cleaned, n=3)
@@ -296,7 +295,7 @@ def perform_query(user_query: str, k: int = 5, filters: Optional[Dict[str, List[
             "Return a JSON array of short sub-questions.\n\n"
             f"Query: '''{cleaned}'''\n"
         )
-        raw = llm(split_prompt)
+        raw = llm.invoke(split_prompt).content
         try:
             subqueries = json.loads(raw)
             if not isinstance(subqueries, list):
@@ -322,9 +321,9 @@ def perform_query(user_query: str, k: int = 5, filters: Optional[Dict[str, List[
             )
             user_prompt = f"Sub-question: {sq}\n\nRetrieved documents:\n{context}\n\nAnswer the sub-question based on the documents."
             try:
-                sub_resp = llm.call_as_llm(system_prompt + "\n\n" + user_prompt) if hasattr(llm, 'call_as_llm') else llm(system_prompt + "\n\n" + user_prompt)
+                sub_resp = llm.invoke(system_prompt + "\n\n" + user_prompt).content
             except Exception:
-                sub_resp = llm(system_prompt + "\n\n" + user_prompt)
+                sub_resp = llm.invoke(system_prompt + "\n\n" + user_prompt).content
             per_results.append({"subquery": sq, "answer": sub_resp})
 
         # Combine per-subquery answers into final chained response
@@ -358,8 +357,8 @@ def perform_query(user_query: str, k: int = 5, filters: Optional[Dict[str, List[
 
     llm = ChatOpenAI(temperature=0)
     try:
-        resp = llm.call_as_llm(system_prompt + "\n\n" + user_prompt) if hasattr(llm, 'call_as_llm') else llm(system_prompt + "\n\n" + user_prompt)
+        resp = llm.invoke(system_prompt + "\n\n" + user_prompt).content
     except Exception:
-        resp = llm(system_prompt + "\n\n" + user_prompt)
+        resp = llm.invoke(system_prompt + "\n\n" + user_prompt).content
 
     return resp
