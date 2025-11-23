@@ -10,3 +10,4 @@ weaviate_data_old/
 data/
 downloaded_files/
 .vscode/
+build_log.txt
