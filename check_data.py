@@ -1,27 +1,43 @@
 import weaviate
 import json
 
-# Connect to Weaviate using v4 syntax
-client = weaviate.WeaviateClient(url="http://localhost:8081")
+def check_weaviate_data():
+    # Connect to Weaviate using v4 syntax
+    client = weaviate.connect_to_local(port=8081)
 
-# 1. Check the schema
-print("=== Weaviate Schema ===")
-schema = client.schema.get()
-print(json.dumps(schema, indent=4))  # Pretty print
+    try:
+        # 1. Check the schema (Collections in v4)
+        print("=== Weaviate Collections (Schema) ===")
+        collections = client.collections.list_all()
+        
+        if not collections:
+            print("No collections (classes) found in the schema.")
+            return
 
-# 2. Check stored data for each class
-if "classes" in schema and schema["classes"]:
-    print("\n=== Stored Data ===")
-    for cls in schema["classes"]:
-        class_name = cls["class"]
-        print(f"\nClass: {class_name}")
+        for name in collections:
+            print(f"- {name}")
 
-        # Get all objects of this class
-        objects = client.data_object.get(class_name=class_name)
-        if objects.get("objects"):
-            for obj in objects["objects"]:
-                print(json.dumps(obj, indent=4))
-        else:
-            print(f"No objects stored in class '{class_name}'")
-else:
-    print("No classes found in the schema. You need to create a schema first.")
+        # 2. Check stored data for each collection
+        print("\n=== Stored Data ===")
+        for name in collections:
+            print(f"\nCollection: {name}")
+            collection = client.collections.get(name)
+            
+            # Fetch objects (limit to 10 for readability)
+            response = collection.query.fetch_objects(limit=10)
+            
+            if response.objects:
+                print(f"Found {len(response.objects)} objects (showing first 10):")
+                for i, obj in enumerate(response.objects):
+                    print(f"\n--- Object {i+1} ---")
+                    print(json.dumps(obj.properties, indent=4))
+            else:
+                print(f"No objects stored in collection '{name}'")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        client.close()
+
+if __name__ == "__main__":
+    check_weaviate_data()
