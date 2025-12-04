@@ -1,35 +1,40 @@
+version: "3.9"
+
 services:
   weaviate:
+    platform: linux/amd64
     image: semitechnologies/weaviate:1.29.0
+    container_name: fyp-project-weaviate
     ports:
-      - "8081:8080"      # REST
-      - "50051:50051"    # gRPC  (required!)
+      - "8081:8080"
+      - "50051:50051"
     environment:
-      - ENABLE_MODULES=
       - ENABLE_MODULES=text2vec-openai
       - ENABLE_GRPC=true
-
-      - GRPC_PORT=50051
       - QUERY_DEFAULTS_LIMIT=20
       - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
       - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+
+      # Correct cluster config for single-node
+      - CLUSTER_HOSTNAME=weaviate
+
     volumes:
       - ./weaviate_data:/var/lib/weaviate
 
+
   app:
+    platform: linux/amd64
     build:
       context: .
-      dockerfile: Dockerfile.app
+      dockerfile: Dockerfile
     container_name: rag-app
     working_dir: /app
     volumes:
-      - .:/app:delegated
+      - .:/app
     environment:
       - WEAVIATE_URL=http://weaviate:8080
       - EMBEDDING_PROVIDER=openai
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       - weaviate
-    stdin_open: true
-    tty: true
     command: tail -f /dev/null

@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 # User query
-user_query = "tell me about the faculty team members of the namal?"
+user_query = "tell me about the rector of the namal?"
 
 # Record start time
 start_time = time.time()
