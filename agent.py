@@ -1,42 +1,64 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from langchain.agents import initialize_agent, Tool
-from langchain.agents import AgentType
+from langchain_core.tools import Tool
+from langchain.agents import create_agent
 
 from query import perform_query
 
 load_dotenv()
 
+import time
+from langchain_core.callbacks import BaseCallbackHandler
+from langchain_core.outputs import LLMResult
+
+class TimingCallbackHandler(BaseCallbackHandler):
+    def __init__(self):
+        self.start_time = None
+
+    def on_llm_start(self, serialized, prompts, **kwargs):
+        self.start_time = time.time()
+        print("  [TIMING] Agent Thinking (LLM Start)...")
+
+    def on_llm_end(self, response: LLMResult, **kwargs):
+        end_time = time.time()
+        if self.start_time:
+            elapsed = end_time - self.start_time
+            print(f"  [TIMING] Agent Thinking Finished in {elapsed:.4f}s")
+
+
 
 def main():
     print(f"\n{'='*70}")
-    print(f"  RAG Agent — Weaviate + LangChain")
+    print(f"  RAG Agent — Weaviate + LangGraph")
     print(f"{'='*70}\n")
 
     # Initialize LLM
     llm = ChatOpenAI(temperature=0, model=os.environ.get('LLM_MODEL', 'gpt-3.5-turbo'))
     print("  [INFO] ChatOpenAI initialized\n")
 
-    # Wrap perform_query as a Tool the agent can call
+    # Wrap perform_query as a Tool
     search_tool = Tool(
         name="weaviate_query",
-        func=lambda q: perform_query(q, k=5, filters=None),
+        func=lambda q: perform_query(q),
         description=(
-            "Search the ingested website content stored in Weaviate with metadata filters. "
-            "Input: a search query. Output: relevant text chunks with source and category."
+            "Search the ingested website content stored in Weaviate. "
+            "Input: a search query. Output: relevant text chunks."
         ),
+        return_direct=True
     )
-
     tools = [search_tool]
 
-    agent = initialize_agent(
-        tools,
-        llm,
-        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-        verbose=True,
-        max_iterations=5,
-    )
+    # Create a system prompt template (replaces state_modifier)
+    system_prompt = "You are a helpful assistant. If you use the weaviate_query tool, its output IS the final answer. Do not add any additional text."
+
+    # Create the agent using the new LangChain method
+    agent_executor = create_agent(
+    tools=tools,
+    system_prompt=system_prompt,
+    model=llm,
+)
+
 
     print("  Agent ready. Type a question (or 'exit' to quit):\n")
     while True:
@@ -49,13 +71,17 @@ def main():
                 break
 
             print(f"\n  [AGENT] Processing: '{q}'")
-            resp = agent.run(q)
-            print(f"\n  [RESPONSE]\n  {resp}\n")
+            response = agent_executor.invoke({"messages": [("user", q)]})
+            messages = response["messages"]
+            final_message = messages[-1]
+            print(f"\n  [RESPONSE]\n  {final_message.content}\n")
+
         except KeyboardInterrupt:
             print("\n\n  Interrupted by user.\n")
             break
         except Exception as e:
             print(f"\n  [ERROR] {e}\n")
+
 
 
 if __name__ == "__main__":
