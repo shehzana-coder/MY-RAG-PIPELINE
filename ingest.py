@@ -11,7 +11,7 @@ from langchain_text_splitters import CharacterTextSplitter
 
 load_dotenv()
 
-WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://localhost:8081")
+WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://127.0.0.1:8081")
 EMBED_PROVIDER = os.environ.get("EMBEDDING_PROVIDER", "openai")
 # Path to the directory containing JSON files
 DATA_DIR = os.path.join(os.path.dirname(__file__), "weaviate_ready_data")

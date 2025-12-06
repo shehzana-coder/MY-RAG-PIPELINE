@@ -33,8 +33,13 @@ def main():
     print(f"  RAG Agent — Weaviate + LangGraph")
     print(f"{'='*70}\n")
 
-    # Initialize LLM
-    llm = ChatOpenAI(temperature=0, model=os.environ.get('LLM_MODEL', 'gpt-3.5-turbo'))
+    # Initialize LLM with streaming callback
+    try:
+        from langchain_community.callbacks import StreamingStdOutCallbackHandler
+    except ImportError:
+        from langchain_core.callbacks import StreamingStdOutCallbackHandler
+
+    llm = ChatOpenAI(temperature=0, model=os.environ.get('LLM_MODEL', 'gpt-3.5-turbo'), streaming=True, callbacks=[StreamingStdOutCallbackHandler()])
     print("  [INFO] ChatOpenAI initialized\n")
 
     # Wrap perform_query as a Tool
@@ -71,10 +76,19 @@ def main():
                 break
 
             print(f"\n  [AGENT] Processing: '{q}'")
+            
+            # Since we have streaming enabled:
+            # 1. If agent decides to talk directly (no tool), it streams to stdout via Callback.
+            # 2. If agent uses tool, the tool (perform_query) streams to stdout manually.
+            # We assume the agent output is already printed.
+            
             response = agent_executor.invoke({"messages": [("user", q)]})
-            messages = response["messages"]
-            final_message = messages[-1]
-            print(f"\n  [RESPONSE]\n  {final_message.content}\n")
+            
+            # We don't print the final message here to avoid duplication.
+            # But just in case nothing was printed (e.g. silent failure?), we could check.
+            # Ideally, streaming handles it.
+            print("\n") # Ensure newline after streaming
+
 
         except KeyboardInterrupt:
             print("\n\n  Interrupted by user.\n")

@@ -35,6 +35,17 @@ services:
       - WEAVIATE_URL=http://weaviate:8080
       - EMBEDDING_PROVIDER=openai
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - weaviate
+      - redis
     command: tail -f /dev/null
+
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: fyp-project-redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - ./redis_data:/data

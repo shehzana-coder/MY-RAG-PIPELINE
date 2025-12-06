@@ -10,6 +10,16 @@ import nltk
 from nltk.corpus import wordnet
 import re
 
+# -------------------------
+# Embedding cache
+# -------------------------
+embedding_cache = {}
+
+# -------------------------
+# Weaviate result cache
+# -------------------------
+weaviate_cache = {}
+
 
 # -------------------------
 # Load environment variables
@@ -17,7 +27,7 @@ import re
 load_dotenv()
 EMBED_PROVIDER = os.environ.get("EMBEDDING_PROVIDER", "openai")
 ORG_NAME = os.environ.get("ORG_NAME", "Namal University")
-WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://localhost:8081")
+WEAVIATE_URL = os.environ.get("WEAVIATE_URL", "http://127.0.0.1:8081")
 
 # -------------------------
 # Embedding & Schema Caching
@@ -31,6 +41,31 @@ def get_embedder():
         return HuggingFaceEmbeddings(model_name=model)
 
 CACHE_FILE = os.path.join(os.path.dirname(__file__), ".weaviate_classes_cache.json")
+
+def get_cached_embedding(text: str, embedder) -> list:
+    """
+    Returns cached embedding if available; otherwise generates embedding and caches it.
+    """
+    key = text.strip().lower()  # normalize text for cache
+
+    if key in embedding_cache:
+        return embedding_cache[key]
+
+    # Generate embedding
+    vector = embedder.embed_query(text)
+
+    # Store in cache
+    embedding_cache[key] = vector
+
+    return vector
+
+
+def get_cache_key(class_name: str, query: str, k: int = 6, alpha: float = 0.5) -> str:
+    """
+    Generate a unique cache key for a query + class + parameters.
+    """
+    return f"{class_name}::{query}::k{k}::alpha{alpha}"
+
 
 def get_available_classes() -> List[str]:
     if os.path.exists(CACHE_FILE):
@@ -62,32 +97,12 @@ def get_available_classes() -> List[str]:
 # Query Expansion using Synonyms
 # -------------------------
 def expand_query(user_query: str, max_synonyms_per_word=2) -> str:
-    """Expand the query by adding synonyms and handle multiple queries in one input."""
-    # Split user query into sub-queries using ?, ;, .
-    sub_queries = re.split(r'[?;.]', user_query)
-    sub_queries = [q.strip() for q in sub_queries if q.strip()]  # remove empty
-
-    expanded_queries = []
-
-    for sub_query in sub_queries:
-        tokens = re.findall(r'\w+', sub_query.lower())
-        expanded_terms = set(tokens)
-
-        for token in tokens:
-            synonyms = set()
-            for syn in wordnet.synsets(token):
-                for lemma in syn.lemmas():
-                    lemma_name = lemma.name().replace('_', ' ')
-                    if lemma_name != token:
-                        synonyms.add(lemma_name)
-            synonyms = list(synonyms)[:max_synonyms_per_word]
-            expanded_terms.update(synonyms)
-
-        expanded_queries.append(' '.join(expanded_terms))
-
-    # Combine all expanded sub-queries into one string
-    expanded_query = ' '.join(expanded_queries)
-    return expanded_query
+    """
+    Expand the query. 
+    NOTE: NLTK expansion disabled as it was causing issues with proper nouns (e.g. Ali -> Cassius Clay).
+    Now it just returns the original query.
+    """
+    return user_query
 
 # -------------------------
 # Smart Class Selection using LLM
@@ -125,60 +140,127 @@ def identify_relevant_classes(user_query: str, available_classes: List[str]) -> 
 # -------------------------
 # Async Hybrid Search (Parallel HTTP)
 # -------------------------
-async def hybrid_search_async(class_name: str, query: str, vector: list, k=6) -> List[Dict]:
-    gql = f'''
-    {{
-      Get {{
+async def hybrid_search_multi_class(query: str, vector: list, k=6, alpha=0.0) -> List[Dict]:
+    """
+    Perform a single Weaviate hybrid search across all available classes.
+    Uses caching to avoid repeated queries.
+    """
+    # Generate a cache key for this query (all classes)
+    key = get_cache_key("ALL_CLASSES", query, k, alpha)
+    if key in weaviate_cache:
+        return weaviate_cache[key]
 
-        {class_name}(
-          hybrid: {{
-            query: "{query}"
-            vector: {vector}
-            alpha: 0.5
-          }}
-          limit: {k}
+    classes = get_available_classes()
+    if not classes:
+        return []
+
+    # Build GraphQL for all classes
+    class_queries = ""
+    print(f"  [DEBUG] Querying {len(classes)} classes...")
+    for cls in classes:
+        class_queries += f"""
+        {cls}(
+            hybrid: {{
+                query: "{query}"
+                vector: {vector}
+                alpha: {alpha}
+            }}
+            limit: {k}
         ) {{
-          text
-          source
-          title
-          category
-          _additional {{
-            score
-            distance
-          }}
+            text
+            source
+            title
+            category
+            _additional {{
+                score
+                distance
+            }}
         }}
-      }}
-    }}
-    '''
-    async with httpx.AsyncClient(timeout=5) as client:
+        """
+
+    gql = f"{{ Get {{ {class_queries} }} }}"
+    
+    # DEBUG: Print snippet of query to verify vector format/structure
+    # print(f"[DEBUG] GraphQL Snippet: {gql[:500]} ... {gql[-200:]}")
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
         try:
             r = await client.post(f"{WEAVIATE_URL}/v1/graphql", json={"query": gql})
-            if r.status_code == 200:
-                data = r.json()
-                items = data.get("data", {}).get("Get", {}).get(class_name, [])
-                hits = []
+            r.raise_for_status()
+            resp_json = r.json()
+            
+            if 'errors' in resp_json:
+               print(f"[ERROR] GraphQL Errors: {resp_json['errors']}")
+            
+            data = resp_json.get("data", {}).get("Get", {})
+            hits = []
+            for cls_name, items in data.items():
+                if not items: continue
                 for it in items:
                     hits.append({
                         "text": it.get("text", ""),
                         "source": it.get("source", ""),
                         "title": it.get("title", ""),
-                        "category": it.get("category", class_name),
+                        "category": it.get("category", cls_name),
                         "score": it.get("_additional", {}).get("score", 0),
                     })
-                return hits
-        except Exception as e:
-            print(f"[WARN] Search failed for {class_name}: {e}")
-            return []
-    return []
+            # Sort by score descending
+            hits.sort(key=lambda x: x.get("score", 0), reverse=True)
 
-async def retrieve_for_query_async(user_query: str, k: int = 6) -> List[Dict]:
+            # Store in cache
+            weaviate_cache[key] = hits
+            return hits[:k*len(classes)]
+        except Exception as e:
+            print(f"[WARN] Multi-class search failed: {e}")
+            return []
+
+# -------------------------
+# Decompose Query into Sub-Queries
+# -------------------------
+def decompose_query(user_query: str) -> List[str]:
+    """Decompose a complex query into a list of simple, independent sub-queries."""
+    # Heuristic: If query is short or doesn't contain separators, assume it's simple.
+    # This avoids unnecessary LLM calls.
+    separators = [",", " and ", " or ", ";", "?", "&"]
+    is_complex = any(sep in user_query.lower() for sep in separators) and len(user_query.split()) > 3
+
+    if not is_complex:
+        return [user_query]
+
+    llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
+    
+    prompt = (
+        f"You are a helpful assistant that splits complex queries into multiple simple sub-queries.\n"
+        f"User Query: \"{user_query}\"\n"
+        f"Split this query into distinct, standalone sub-queries if it asks about multiple topics.\n"
+        f"If the query is already simple, return it as a single-item list.\n"
+        f"Return ONLY a JSON list of strings, e.g. [\"Tell me about faculty\", \"Tell me about admission\"]."
+    )
+
+    try:
+        response = llm.invoke(prompt).content
+        response = response.replace("```json", "").replace("```", "").strip()
+        sub_queries = json.loads(response)
+        
+        # Fallback if not a list
+        if not isinstance(sub_queries, list):
+            return [user_query]
+        
+        return sub_queries
+    except Exception as e:
+        print(f"  [WARN] Query decomposition failed: {e}")
+        return [user_query]
+
+async def process_single_sub_query(sub_query: str, k: int = 6) -> List[Dict]:
+    """Process a single sub-query: Expand -> Identify Classes -> Hybrid Search"""
     # Step 0: Expand query
-    expanded_query = expand_query(user_query)
-    print(f"[INFO] Expanded Query: {expanded_query}")
+    expanded_query = expand_query(sub_query)
+    print(f"[INFO] Processing Sub-Query: '{sub_query}' -> Expanded: '{expanded_query}'")
 
     embedder = get_embedder()
     try:
-        q_vector = embedder.embed_query(expanded_query)
+        q_vector = get_cached_embedding(expanded_query, embedder)
+
     except Exception:
         return []
 
@@ -186,16 +268,36 @@ async def retrieve_for_query_async(user_query: str, k: int = 6) -> List[Dict]:
     if not all_classes:
         return []
 
-    target_classes = identify_relevant_classes(user_query, all_classes)
-    print(f"[INFO] Searching in classes: {target_classes}")
+    # Multi-class search (single call)
+    all_hits = await hybrid_search_multi_class(expanded_query, q_vector, k)
+    return all_hits
 
-    tasks = [hybrid_search_async(cls, expanded_query, q_vector, k) for cls in target_classes]
-    results = await asyncio.gather(*tasks)
+async def retrieve_for_query_async(user_query: str, k: int = 6) -> List[Dict]:
+    # Step 1: Decompose Query
+    sub_queries = decompose_query(user_query)
+    if len(sub_queries) > 1:
+        print(f"[INFO] Decomposed into: {sub_queries}")
 
-    all_hits = [hit for class_hits in results for hit in class_hits]
+    # Step 2: Process all sub-queries in parallel
+    tasks = [process_single_sub_query(sq, k) for sq in sub_queries]
+    results_list = await asyncio.gather(*tasks)
+
+    # Step 3: Aggregate and Deduplicate
+    all_hits = []
+    seen_hashes = set()
+
+    for hits in results_list:
+        for hit in hits:
+            # Create a unique hash for deduplication based on text content
+            h = hash(hit.get("text", ""))
+            if h not in seen_hashes:
+                seen_hashes.add(h)
+                all_hits.append(hit)
+
+    # Sort by score (descending)
     all_hits.sort(key=lambda x: x.get("score", 0), reverse=True)
 
-    return all_hits[:k]
+    return all_hits[:k * len(sub_queries)]  # Allow more results if multiple queries
 
 def retrieve_for_query(user_query: str, k: int = 6) -> List[Dict]:
     return asyncio.run(retrieve_for_query_async(user_query, k))
@@ -237,12 +339,22 @@ def perform_query(user_query: str) -> str:
 
     try:
         t2 = time.time()
-        response = llm.invoke([
+        print("\n  [RESPONSE]")
+        
+        full_response = ""
+        for chunk in llm.stream([
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
-        ]).content
+        ]):
+            content = chunk.content
+            print(content, end="", flush=True)
+            full_response += content
+            
+        print("\n") # Newline after streaming
+        
         t3 = time.time()
         print(f"  [TIMING] Generation finished in {t3 - t2:.4f}s")
+        response = full_response
     except Exception as e:
         return f"I'm sorry, I encountered an error while processing your request. ({str(e)})"
 
