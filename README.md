@@ -5,7 +5,7 @@ This repository contains a minimal example showing how to build an agentic Retri
 Quick overview
 - Start a local Weaviate instance (Docker Compose included).
 - Ingest your scraped data (place files in `data/` directory) with `ingest.py`.
-- Run `agent.py` to start a LangChain agent that can query Weaviate as a tool.
+- Run `user_query.py` to start a LangChain agent that can query Weaviate as a tool.
 
 Prerequisites
 - Docker (for running local Weaviate) or a Weaviate cloud instance.

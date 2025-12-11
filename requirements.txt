@@ -12,3 +12,12 @@ crawl4ai
 langchain-text-splitters
 langchain-openai
 langchain-community
+redis
+numpy
+nltk
+httpx
+faiss-cpu
+pyinstrument
+circuitbreaker
+prometheus_client
+langchain_core
